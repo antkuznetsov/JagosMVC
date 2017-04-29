@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * Created by Kuznetsov on 29/04/2017.
@@ -21,5 +22,13 @@ public class DashboardController {
 
         return "dashboard";
 
+    }
+
+    @RequestMapping("/demo/")
+    public String greeting(@RequestParam(value="name", required=false) String name, Model model) {
+
+        model.addAttribute("title", name);
+
+        return "dashboard";
     }
 }
