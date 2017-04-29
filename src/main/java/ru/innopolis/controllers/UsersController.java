@@ -1,10 +1,17 @@
 package ru.innopolis.controllers;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import ru.innopolis.models.entities.User;
+import ru.innopolis.models.interfaces.UserDao;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Kuznetsov on 29/04/2017.
@@ -14,6 +21,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class UsersController {
 
     private static final Logger LOGGER = Logger.getLogger(DashboardController.class);
+
+    @Autowired
+    UserDao userDao;
 
     @RequestMapping("/users/")
     public String users(@RequestParam(value="action", required=false) String action,
@@ -26,7 +36,18 @@ public class UsersController {
         } else if ("delete".equals(action)) {
             model.addAttribute("title", "Удалить пользователя " + id);
         } else {
+
             model.addAttribute("title", "Пользователи");
+
+            List<User> users = userDao.getList();
+            //List<User> users = new ArrayList<User>();
+            users.add(new User(1, "Макс", "Андреев", "demo@max.ru",
+                            "123123", 1, false));
+
+            LOGGER.info(users);
+
+            model.addAttribute("users", users);
+
         }
 
         return "dashboard";
