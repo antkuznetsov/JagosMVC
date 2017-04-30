@@ -12,6 +12,13 @@
         <put-attribute name="body" value="/WEB-INF/views/content/users-add-edit.jsp"/>
     </definition>
 
+    <definition name="courses-list" extends="common">
+        <put-attribute name="body" value="/WEB-INF/views/content/courses-list.jsp"/>
+    </definition>
+    <definition name="courses-add-edit" extends="common">
+        <put-attribute name="body" value="/WEB-INF/views/content/courses-add-edit.jsp"/>
+    </definition>
+
     <definition name="dashboard" extends="common">
         <put-attribute name="body" value="/WEB-INF/views/content/dashboard.jsp"/>
     </definition>

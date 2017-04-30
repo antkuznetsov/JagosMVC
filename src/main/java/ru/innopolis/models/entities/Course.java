@@ -16,6 +16,10 @@ public class Course {
     private String description;
     private int authorId;
 
+    public Course(){
+
+    }
+
     public Course(int id, String title, String description, int authorId) {
         this.id = id;
         this.title = title;
