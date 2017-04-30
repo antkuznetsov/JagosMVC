@@ -40,9 +40,6 @@ public class UsersController {
             model.addAttribute("title", "Пользователи");
 
             List<User> users = userDao.getList();
-            //List<User> users = new ArrayList<User>();
-            users.add(new User(1, "Макс", "Андреев", "demo@max.ru",
-                            "123123", 1, false));
 
             LOGGER.info(users);
 
@@ -50,7 +47,7 @@ public class UsersController {
 
         }
 
-        return "dashboard";
+        return "users";
 
     }
 }
