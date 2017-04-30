@@ -13,11 +13,11 @@ public interface UserDao {
 
     User getById(int id);
 
-    void add(User student);
+    int add(User student);
 
-    void update(User student);
+    int update(User student);
 
-    void delete(int id);
+    int delete(int id);
 
     User getByEmailAndPassword(String email, String password);
 }

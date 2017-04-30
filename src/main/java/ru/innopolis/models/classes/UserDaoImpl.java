@@ -1,7 +1,9 @@
 package ru.innopolis.models.classes;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -26,12 +28,9 @@ public class UserDaoImpl implements UserDao {
 
     public List<User> getList() {
 
-        LOGGER.info("Вошли в гетлист");
-
         return template.query("SELECT * FROM users", new RowMapper<User>() {
 
             public User mapRow(ResultSet rs, int row) throws SQLException {
-                LOGGER.info("Возвращаем пользователя");
                 User user = new User(
                         rs.getInt(1),
                         rs.getString(2),
@@ -41,25 +40,39 @@ public class UserDaoImpl implements UserDao {
                         rs.getInt(6),
                         rs.getBoolean(7)
                 );
-                LOGGER.info(user);
                 return user;
             }
         });
     }
 
     public User getById(int id) {
-        return null;
+
+        String sql = "SELECT * FROM users WHERE id = ?";
+
+        return template.queryForObject(sql, new Object[] {id}, new BeanPropertyRowMapper<User>(User.class));
     }
 
-    public void add(User student) {
+    public int add(User user) {
 
+        String sql = "INSERT INTO users (name, last_name, email, password, group_id, is_blocked) values (?, ?, ?, ?, ?, ?)";
+
+        return template.update(sql, user.getName(), user.getLastName(), user.getEmail(), user.getPassword(),
+                user.getGroup(), user.isBlocked());
     }
 
-    public void update(User student) {
+    public int update(User user) {
 
+        String sql = "UPDATE users set name = ?, last_name = ?, email = ?, password = ?, group_id = ?, is_blocked = ? WHERE id = ?";
+
+        return template.update(sql, user.getName(), user.getLastName(), user.getEmail(), DigestUtils.md5Hex(user.getPassword()),
+                user.getGroup(), user.isBlocked(), user.getId());
     }
 
-    public void delete(int id) {
+    public int delete(int id) {
+
+        String sql = "DELETE from users WHERE id = ?";
+
+        return template.update(sql, id);
 
     }
 
