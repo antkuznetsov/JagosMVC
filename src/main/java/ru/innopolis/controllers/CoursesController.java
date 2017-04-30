@@ -19,7 +19,7 @@ public class CoursesController {
 
         model.addAttribute("title", "Курсы");
 
-        return "dashboard";
+        return "pages/dashboard";
 
     }
 }

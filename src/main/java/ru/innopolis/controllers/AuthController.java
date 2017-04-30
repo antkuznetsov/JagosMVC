@@ -19,7 +19,7 @@ public class AuthController {
 
         model.addAttribute("title", "Авторизация");
 
-        return "dashboard";
+        return "pages/dashboard";
 
     }
 }

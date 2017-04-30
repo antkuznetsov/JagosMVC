@@ -28,7 +28,7 @@ public class UserDaoImpl implements UserDao {
 
     public List<User> getList() {
 
-        return template.query("SELECT * FROM users", new RowMapper<User>() {
+        return template.query("SELECT * FROM users ORDER BY id", new RowMapper<User>() {
 
             public User mapRow(ResultSet rs, int row) throws SQLException {
                 User user = new User(
@@ -73,7 +73,6 @@ public class UserDaoImpl implements UserDao {
         String sql = "DELETE from users WHERE id = ?";
 
         return template.update(sql, id);
-
     }
 
     public User getByEmailAndPassword(String email, String password) {

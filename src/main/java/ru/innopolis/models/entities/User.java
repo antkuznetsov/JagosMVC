@@ -1,6 +1,7 @@
 package ru.innopolis.models.entities;
 
 import org.apache.log4j.Logger;
+import org.springframework.stereotype.Component;
 
 /**
  * Created by Kuznetsov on 13/04/2017.
@@ -17,6 +18,10 @@ public class User {
     private String password;
     private int group;
     private boolean blocked;
+
+    public User() {
+
+    }
 
     public User(int id, String name, String lastName, String email, String password, int group, boolean blocked) {
         this.id = id;

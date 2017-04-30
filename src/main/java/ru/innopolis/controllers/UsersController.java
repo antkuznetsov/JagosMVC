@@ -2,15 +2,16 @@ package ru.innopolis.controllers;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 import ru.innopolis.models.entities.User;
-import ru.innopolis.models.interfaces.UserDao;
+import ru.innopolis.services.interfaces.UserService;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,31 +24,55 @@ public class UsersController {
     private static final Logger LOGGER = Logger.getLogger(DashboardController.class);
 
     @Autowired
-    UserDao userDao;
+    UserService userService;
 
-    @RequestMapping("/users/")
-    public String users(@RequestParam(value="action", required=false) String action,
-                        @RequestParam(value="id", required=false) String id, Model model) {
+    @RequestMapping(value = "/users/", method = RequestMethod.GET)
+    public ModelAndView users(@RequestParam(value="action", required=false) String action,
+                              @RequestParam(value="id", required=false) String id, Model model) {
+
+        ModelAndView mav = new ModelAndView("pages/users/list");
 
         if ("add".equals(action)) {
+
             model.addAttribute("title", "Добавить пользователя");
+            model.addAttribute("action", "/users/add/");
+
+            mav = new ModelAndView("pages/users/add-edit", "command", new User());
+
         } else if ("edit".equals(action)) {
-            model.addAttribute("title", "Изменить пользователя " + id);
+
+            User user = userService.getById(Integer.parseInt(id));
+
+            model.addAttribute("title", "Изменить пользователя");
+            model.addAttribute("action", "/users/edit/");
+
+            mav = new ModelAndView("pages/users/add-edit", "command", user);
+
         } else if ("delete".equals(action)) {
-            model.addAttribute("title", "Удалить пользователя " + id);
+
+            userService.delete(Integer.parseInt(id));
+
+            mav = new ModelAndView("redirect:/users/");
+
         } else {
 
+            List<User> users = userService.getList();
             model.addAttribute("title", "Пользователи");
-
-            List<User> users = userDao.getList();
-
-            LOGGER.info(users);
-
             model.addAttribute("users", users);
 
         }
+        return mav;
+    }
 
-        return "users";
+    @RequestMapping(value="/users/add/", method = RequestMethod.POST)
+    public ModelAndView add(@ModelAttribute("user") User user){
+        userService.add(user);
+        return new ModelAndView("redirect:/users/");
+    }
 
+    @RequestMapping(value="/users/edit/", method = RequestMethod.POST)
+    public ModelAndView edit(@ModelAttribute("user") User user){
+        userService.update(user);
+        return new ModelAndView("redirect:/users/");
     }
 }
