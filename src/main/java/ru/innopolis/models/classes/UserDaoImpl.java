@@ -56,7 +56,7 @@ public class UserDaoImpl implements UserDao {
 
         String sql = "INSERT INTO users (name, last_name, email, password, group_id, is_blocked) values (?, ?, ?, ?, ?, ?)";
 
-        return template.update(sql, user.getName(), user.getLastName(), user.getEmail(), user.getPassword(),
+        return template.update(sql, user.getName(), user.getLastName(), user.getEmail(), DigestUtils.md5Hex(user.getPassword()),
                 user.getGroup(), user.isBlocked());
     }
 
