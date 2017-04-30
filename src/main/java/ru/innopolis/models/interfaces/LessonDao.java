@@ -15,9 +15,9 @@ public interface LessonDao {
 
     Lesson getById(int id);
 
-    void add(Lesson lesson);
+    int add(Lesson lesson);
 
-    void update(Lesson lesson);
+    int update(Lesson lesson);
 
-    void delete(int id);
+    int delete(int id);
 }
