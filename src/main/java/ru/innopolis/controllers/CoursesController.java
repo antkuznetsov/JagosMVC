@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import ru.innopolis.models.entities.Course;
 import ru.innopolis.models.entities.Lesson;
+import ru.innopolis.models.entities.User;
 import ru.innopolis.services.interfaces.CourseService;
 import ru.innopolis.services.interfaces.LessonService;
+import ru.innopolis.services.interfaces.UserService;
 
 import java.util.List;
 
@@ -29,6 +31,8 @@ public class CoursesController {
     CourseService courseService;
     @Autowired
     LessonService lessonServices;
+    @Autowired
+    UserService userServices;
 
     @RequestMapping(value = "/courses/", method = RequestMethod.GET)
     public ModelAndView courses(@RequestParam(value="action", required=false) String action,
@@ -47,10 +51,12 @@ public class CoursesController {
 
             Course course = courseService.getById(Integer.parseInt(id));
             List<Lesson> lessons = lessonServices.getListByCourseId(Integer.parseInt(id));
+            List<User> users = userServices.getList();
 
             model.addAttribute("title", "Изменить курс");
             model.addAttribute("action", "/courses/edit/");
             model.addAttribute("lessons", lessons);
+            model.addAttribute("users", users);
             model.addAttribute("courseId", course.getId());
 
             mav = new ModelAndView("pages/courses/add-edit", "command", course);

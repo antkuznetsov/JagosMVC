@@ -38,7 +38,7 @@
                     </li>
                 </ul>
                 <div class="form-inline mt-2 mt-md-0">
-                    <button onclick="window.location = '/auth/?action=logout'" class="btn btn-outline-success my-2 my-sm-0"
+                    <button onclick="window.location = '/auth/?logout'" class="btn btn-outline-success my-2 my-sm-0"
                             type="submit">Выход
                     </button>
                 </div>

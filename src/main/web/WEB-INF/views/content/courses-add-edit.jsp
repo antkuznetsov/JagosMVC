@@ -12,9 +12,9 @@
         <form:input path="description" cssClass="form-control" id="description"/>
     </div>
     <div class="form-group">
-        <label for="authorId">Автор</label>>
+        <label for="authorId">Автор</label>
         <form:select path="authorId" cssClass="form-control" id="authorId">
-            <form:options/>
+            <form:options items="${users}"/>
         </form:select>
     </div>
     <form:hidden path="id"/>
@@ -38,7 +38,8 @@
                 <td><c:out value="${lesson.title}"/></td>
                 <td>
                     <a class="edit" href="/lessons/?action=edit&id=<c:out value="${lesson.id}"/>">Редактировать</a>
-                    <a class="delete" href="/lessons/?action=delete&id=<c:out value="${lesson.id}"/>&course=<c:out value="${courseId}"/>">Удалить</a>
+                    <a class="delete"
+                       href="/lessons/?action=delete&id=<c:out value="${lesson.id}"/>&course=<c:out value="${courseId}"/>">Удалить</a>
                 </td>
             </tr>
         </c:forEach>
