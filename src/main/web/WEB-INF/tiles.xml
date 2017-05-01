@@ -31,4 +31,8 @@
         <put-attribute name="body" value="/WEB-INF/views/content/dashboard.jsp"/>
     </definition>
 
+    <definition name="static-page" extends="common">
+        <put-attribute name="body" value="/WEB-INF/views/content/static-page.jsp"/>
+    </definition>
+
 </tiles-definitions>

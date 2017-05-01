@@ -24,17 +24,14 @@
 
             <div class="collapse navbar-collapse" id="navbarsExampleDefault">
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="#">Главная</a>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">О проекте</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Настройки</a>
+                        <a class="nav-link" href="/help/">Помощь</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Профиль</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Помощь</a>
+                        <a class="nav-link" href="/faq/">FAQ</a>
                     </li>
                 </ul>
                 <div class="form-inline mt-2 mt-md-0">
@@ -54,9 +51,6 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="/courses/">Курсы</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Комментарии</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="/users/">Пользователи</a>
