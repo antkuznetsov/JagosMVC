@@ -35,9 +35,12 @@
                     </li>
                 </ul>
                 <div class="form-inline mt-2 mt-md-0">
-                    <button onclick="window.location = '/auth/?logout'" class="btn btn-outline-success my-2 my-sm-0"
-                            type="submit">Выход
-                    </button>
+                    <form action="/j_spring_security_logout" method="post" id="logoutForm">
+                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
+                            Выход
+                        </button>
+                    </form>
                 </div>
             </div>
         </nav>
