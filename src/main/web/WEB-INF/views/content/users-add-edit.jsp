@@ -22,8 +22,8 @@
     <div class="form-group">
         <label for="group">Группа</label>
         <form:select path="group" cssClass="form-control" id="group">
-            <form:option value="1">Администратор</form:option>
-            <form:option value="2">Пользователь</form:option>
+            <form:option value="0" disabled="true">Выберите группу</form:option>
+            <form:options items="${groups}"/>
         </form:select>
     </div>
     <div class="form-check">

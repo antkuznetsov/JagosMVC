@@ -12,7 +12,9 @@ import org.springframework.web.servlet.ModelAndView;
 import ru.innopolis.models.entities.User;
 import ru.innopolis.services.interfaces.UserService;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Kuznetsov on 29/04/2017.
@@ -34,17 +36,27 @@ public class UsersController {
 
         if ("add".equals(action)) {
 
+            Map<Integer, String> groups = new HashMap<Integer, String>();
+            groups.put(1, "Администраторы");
+            groups.put(2, "Пользователи");
+
             model.addAttribute("title", "Добавить пользователя");
             model.addAttribute("action", "/users/add/");
+            model.addAttribute("groups", groups);
 
             mav = new ModelAndView("pages/users/add-edit", "command", new User());
 
         } else if ("edit".equals(action)) {
 
+            Map<Integer, String> groups = new HashMap<Integer, String>();
+            groups.put(1, "Администраторы");
+            groups.put(2, "Пользователи");
+
             User user = userService.getById(Integer.parseInt(id));
 
             model.addAttribute("title", "Изменить пользователя");
             model.addAttribute("action", "/users/edit/");
+            model.addAttribute("groups", groups);
 
             mav = new ModelAndView("pages/users/add-edit", "command", user);
 
