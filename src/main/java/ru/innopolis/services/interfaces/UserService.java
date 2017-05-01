@@ -21,7 +21,5 @@ public interface UserService {
 
     void delete(int id);
 
-    /*User auth(String login, String password);*/
-
     Map<Integer, String> getAuthors();
 }

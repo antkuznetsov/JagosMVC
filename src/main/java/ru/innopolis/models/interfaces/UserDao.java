@@ -20,7 +20,5 @@ public interface UserDao {
 
     int delete(int id);
 
-    /*User getByEmailAndPassword(String email, String password);*/
-
     Map<Integer, String> getAuthors();
 }

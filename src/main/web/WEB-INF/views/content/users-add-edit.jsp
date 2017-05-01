@@ -20,8 +20,8 @@
         <form:password path="password" cssClass="form-control" id="password"/>
     </div>
     <div class="form-group">
-        <label for="group">Группа</label>
-        <form:select path="group" cssClass="form-control" id="group">
+        <label for="groupId">Группа</label>
+        <form:select path="groupId" cssClass="form-control" id="groupId">
             <form:option value="0" disabled="true">Выберите группу</form:option>
             <form:options items="${groups}"/>
         </form:select>

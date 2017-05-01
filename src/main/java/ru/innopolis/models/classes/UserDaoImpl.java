@@ -51,23 +51,23 @@ public class UserDaoImpl implements UserDao {
 
         String sql = "SELECT * FROM users WHERE id = ?";
 
-        return template.queryForObject(sql, new Object[] {id}, new BeanPropertyRowMapper<User>(User.class));
+        return template.queryForObject(sql, BeanPropertyRowMapper.newInstance(User.class), id);
     }
 
     public int add(User user) {
 
-        String sql = "INSERT INTO users (name, last_name, email, password, group_id, is_blocked) values (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO users (name, last_name, email, password, group_id, blocked) values (?, ?, ?, ?, ?, ?)";
 
         return template.update(sql, user.getName(), user.getLastName(), user.getEmail(), DigestUtils.md5Hex(user.getPassword()),
-                user.getGroup(), user.isBlocked());
+                user.getGroupId(), user.isBlocked());
     }
 
     public int update(User user) {
 
-        String sql = "UPDATE users set name = ?, last_name = ?, email = ?, password = ?, group_id = ?, is_blocked = ? WHERE id = ?";
+        String sql = "UPDATE users set name = ?, last_name = ?, email = ?, password = ?, group_id = ?, blocked = ? WHERE id = ?";
 
         return template.update(sql, user.getName(), user.getLastName(), user.getEmail(), DigestUtils.md5Hex(user.getPassword()),
-                user.getGroup(), user.isBlocked(), user.getId());
+                user.getGroupId(), user.isBlocked(), user.getId());
     }
 
     public int delete(int id) {
@@ -76,12 +76,6 @@ public class UserDaoImpl implements UserDao {
 
         return template.update(sql, id);
     }
-
-    /*
-    public User getByEmailAndPassword(String email, String password) {
-        return null;
-    }
-    */
 
     public Map<Integer, String> getAuthors () {
 

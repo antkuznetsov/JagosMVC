@@ -16,20 +16,20 @@ public class User {
     private String lastName;
     private String email;
     private String password;
-    private int group;
+    private int groupId;
     private boolean blocked;
 
     public User() {
 
     }
 
-    public User(int id, String name, String lastName, String email, String password, int group, boolean blocked) {
+    public User(int id, String name, String lastName, String email, String password, int groupId, boolean blocked) {
         this.id = id;
         this.name = name;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
-        this.group = group;
+        this.groupId = groupId;
         this.blocked = blocked;
     }
 
@@ -73,12 +73,12 @@ public class User {
         this.password = password;
     }
 
-    public int getGroup() {
-        return group;
+    public int getGroupId() {
+        return groupId;
     }
 
-    public void setGroup(int group) {
-        this.group = group;
+    public void setGroupId(int groupId) {
+        this.groupId = groupId;
     }
 
     public boolean isBlocked() {
@@ -115,7 +115,7 @@ public class User {
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
-                ", group=" + group +
+                ", groupId=" + groupId +
                 ", blocked=" + blocked +
                 '}';
     }

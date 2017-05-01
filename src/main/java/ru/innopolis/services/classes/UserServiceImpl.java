@@ -22,23 +22,6 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserDao userDao;
 
-    /*
-    public User auth(String email, String password) {
-
-        User user = userDao.getByEmailAndPassword(email, password);
-        System.out.println();
-
-        LOGGER.debug(user);
-
-        if (user != null && user.isBlocked()) {
-            LOGGER.debug("User is blocked");
-            return null;
-        }
-
-        return user;
-    }
-    */
-
     public List<User> getList() {
         return userDao.getList();
     }
