@@ -19,6 +19,10 @@
         <put-attribute name="body" value="/WEB-INF/views/content/courses-add-edit.jsp"/>
     </definition>
 
+    <definition name="lessons-add-edit" extends="common">
+        <put-attribute name="body" value="/WEB-INF/views/content/lessons-add-edit.jsp"/>
+    </definition>
+
     <definition name="auth" extends="common">
         <put-attribute name="body" value="/WEB-INF/views/content/auth.jsp"/>
     </definition>
