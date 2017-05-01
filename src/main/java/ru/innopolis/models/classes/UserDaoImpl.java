@@ -12,7 +12,9 @@ import ru.innopolis.models.interfaces.UserDao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Kuznetsov on 22/04/2017.
@@ -75,7 +77,24 @@ public class UserDaoImpl implements UserDao {
         return template.update(sql, id);
     }
 
+    /*
     public User getByEmailAndPassword(String email, String password) {
         return null;
+    }
+    */
+
+    public Map<Integer, String> getAuthors () {
+
+        String sql = "SELECT * FROM users WHERE group_id = 1 ORDER BY id";
+
+        Map<Integer, String> authors = new HashMap<Integer, String>();
+
+        List<Map<String, Object>> rows = template.queryForList(sql);
+
+        for (Map row : rows) {
+            authors.put((Integer) row.get("id"), row.get("name") + " " + row.get("last_name"));
+        }
+
+        return authors;
     }
 }

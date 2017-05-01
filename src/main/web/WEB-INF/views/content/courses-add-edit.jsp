@@ -9,12 +9,14 @@
     </div>
     <div class="form-group">
         <label for="description">Описание</label>
-        <form:input path="description" cssClass="form-control" id="description"/>
+        <form:textarea path="description" cssClass="form-control" id="description" rows="5"/>
     </div>
+
     <div class="form-group">
         <label for="authorId">Автор</label>
         <form:select path="authorId" cssClass="form-control" id="authorId">
-            <form:options items="${users}"/>
+            <form:option value="0" disabled="true">Выберите автора</form:option>
+            <form:options items="${authors}"/>
         </form:select>
     </div>
     <form:hidden path="id"/>

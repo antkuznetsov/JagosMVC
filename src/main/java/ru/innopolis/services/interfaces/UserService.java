@@ -4,6 +4,7 @@ package ru.innopolis.services.interfaces;
 import ru.innopolis.models.entities.User;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Kuznetsov on 22/04/2017.
@@ -20,5 +21,7 @@ public interface UserService {
 
     void delete(int id);
 
-    User auth(String login, String password);
+    /*User auth(String login, String password);*/
+
+    Map<Integer, String> getAuthors();
 }

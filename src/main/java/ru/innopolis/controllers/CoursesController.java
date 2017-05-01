@@ -17,6 +17,7 @@ import ru.innopolis.services.interfaces.LessonService;
 import ru.innopolis.services.interfaces.UserService;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Kuznetsov on 29/04/2017.
@@ -40,24 +41,35 @@ public class CoursesController {
 
         ModelAndView mav = new ModelAndView("pages/courses/list");
 
+        int courseId = 0;
+
+        if (id != null){
+            courseId = Integer.parseInt(id);
+        }
+
         if ("add".equals(action)) {
+
+            Map<Integer, String> authors = userServices.getAuthors();
 
             model.addAttribute("title", "Добавить курс");
             model.addAttribute("action", "/courses/add/");
+            model.addAttribute("authors", authors);
 
             mav = new ModelAndView("pages/courses/add-edit", "command", new Course());
 
         } else if ("edit".equals(action)) {
 
-            Course course = courseService.getById(Integer.parseInt(id));
-            List<Lesson> lessons = lessonServices.getListByCourseId(Integer.parseInt(id));
-            List<User> users = userServices.getList();
+            Course course = courseService.getById(courseId);
+            List<Lesson> lessons = lessonServices.getListByCourseId(courseId);
+            Map<Integer, String> authors = userServices.getAuthors();
 
             model.addAttribute("title", "Изменить курс");
             model.addAttribute("action", "/courses/edit/");
             model.addAttribute("lessons", lessons);
-            model.addAttribute("users", users);
-            model.addAttribute("courseId", course.getId());
+            model.addAttribute("authors", authors);
+            model.addAttribute("courseId", courseId);
+
+            LOGGER.info(userServices.getAuthors());
 
             mav = new ModelAndView("pages/courses/add-edit", "command", course);
 
@@ -85,6 +97,8 @@ public class CoursesController {
 
     @RequestMapping(value="/courses/edit/", method = RequestMethod.POST)
     public ModelAndView edit(@ModelAttribute("course") Course course){
+        LOGGER.info("Отредактировали");
+        LOGGER.info(course);
         courseService.update(course);
         return new ModelAndView("redirect:/courses/");
     }

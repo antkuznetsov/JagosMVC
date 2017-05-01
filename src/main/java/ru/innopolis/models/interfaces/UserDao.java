@@ -3,6 +3,7 @@ package ru.innopolis.models.interfaces;
 import ru.innopolis.models.entities.User;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Kuznetsov on 22/04/2017.
@@ -19,5 +20,7 @@ public interface UserDao {
 
     int delete(int id);
 
-    User getByEmailAndPassword(String email, String password);
+    /*User getByEmailAndPassword(String email, String password);*/
+
+    Map<Integer, String> getAuthors();
 }

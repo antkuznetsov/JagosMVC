@@ -8,6 +8,7 @@ import ru.innopolis.models.interfaces.UserDao;
 import ru.innopolis.services.interfaces.UserService;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Kuznetsov on 22/04/2017.
@@ -21,6 +22,7 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserDao userDao;
 
+    /*
     public User auth(String email, String password) {
 
         User user = userDao.getByEmailAndPassword(email, password);
@@ -35,6 +37,7 @@ public class UserServiceImpl implements UserService {
 
         return user;
     }
+    */
 
     public List<User> getList() {
         return userDao.getList();
@@ -62,5 +65,9 @@ public class UserServiceImpl implements UserService {
 
     public UserDao getUserDao() {
         return userDao;
+    }
+
+    public Map<Integer, String> getAuthors() {
+        return userDao.getAuthors();
     }
 }
