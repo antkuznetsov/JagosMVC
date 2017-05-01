@@ -23,7 +23,7 @@ public class LessonsController {
     private static final Logger LOGGER = Logger.getLogger(DashboardController.class);
 
     @Autowired
-    LessonService lessonServices;
+    private LessonService lessonServices;
 
     @RequestMapping(value = "/lessons/", method = RequestMethod.GET)
     public ModelAndView courses(@RequestParam(value="action", required=false) String action,

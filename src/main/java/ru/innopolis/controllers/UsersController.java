@@ -26,7 +26,7 @@ public class UsersController {
     private static final Logger LOGGER = Logger.getLogger(DashboardController.class);
 
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     @RequestMapping(value = "/users/", method = RequestMethod.GET)
     public ModelAndView users(@RequestParam(value="action", required=false) String action,
