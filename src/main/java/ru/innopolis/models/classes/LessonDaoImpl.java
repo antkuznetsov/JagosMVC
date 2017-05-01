@@ -64,7 +64,7 @@ public class LessonDaoImpl implements LessonDao {
 
         String sql = "SELECT * FROM lessons WHERE id = ?";
 
-        return template.queryForObject(sql, new Object[] {id}, new BeanPropertyRowMapper<Lesson>(Lesson.class));
+        return template.queryForObject(sql, BeanPropertyRowMapper.newInstance(Lesson.class), id);
 
     }
 

@@ -46,7 +46,7 @@ public class CourseDaoImpl implements CourseDao {
 
         String sql = "SELECT * FROM courses WHERE id = ?";
 
-        return template.queryForObject(sql, new Object[] {id}, new BeanPropertyRowMapper<Course>(Course.class));
+        return template.queryForObject(sql, BeanPropertyRowMapper.newInstance(Course.class), id);
     }
 
     public int add(Course course) {
