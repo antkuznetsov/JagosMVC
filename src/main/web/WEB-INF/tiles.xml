@@ -23,16 +23,16 @@
         <put-attribute name="body" value="/WEB-INF/views/content/lessons-add-edit.jsp"/>
     </definition>
 
-    <definition name="auth" extends="common">
-        <put-attribute name="body" value="/WEB-INF/views/content/auth.jsp"/>
-    </definition>
-
     <definition name="dashboard" extends="common">
         <put-attribute name="body" value="/WEB-INF/views/content/dashboard.jsp"/>
     </definition>
 
     <definition name="static-page" extends="common">
         <put-attribute name="body" value="/WEB-INF/views/content/static-page.jsp"/>
+    </definition>
+
+    <definition name="auth" template="/WEB-INF/views/template/default-auth.jsp">
+        <put-attribute name="body" value="/WEB-INF/views/content/auth.jsp"/>
     </definition>
 
 </tiles-definitions>
