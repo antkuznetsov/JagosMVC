@@ -69,4 +69,11 @@ public class CourseDaoImpl implements CourseDao {
 
         return template.update(sql, id);
     }
+
+    public int getCount() {
+
+        String sql = "SELECT COUNT(*) FROM courses";
+
+        return template.queryForObject(sql, Integer.class);
+    }
 }

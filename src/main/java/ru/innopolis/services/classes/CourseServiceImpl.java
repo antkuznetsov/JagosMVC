@@ -40,4 +40,8 @@ public class CourseServiceImpl implements CourseService {
     public void delete(int id) {
         courseDao.delete(id);
     }
+
+    public int getCount() {
+        return courseDao.getCount();
+    }
 }

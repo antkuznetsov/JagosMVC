@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import ru.innopolis.models.entities.Course;
 import ru.innopolis.models.entities.Lesson;
-import ru.innopolis.models.entities.User;
 import ru.innopolis.services.interfaces.CourseService;
 import ru.innopolis.services.interfaces.LessonService;
 import ru.innopolis.services.interfaces.UserService;
@@ -29,11 +28,11 @@ public class CoursesController {
     private static final Logger LOGGER = Logger.getLogger(DashboardController.class);
 
     @Autowired
-    CourseService courseService;
+    private CourseService courseService;
     @Autowired
-    LessonService lessonServices;
+    private LessonService lessonServices;
     @Autowired
-    UserService userServices;
+    private UserService userServices;
 
     @RequestMapping(value = "/courses/", method = RequestMethod.GET)
     public ModelAndView courses(@RequestParam(value="action", required=false) String action,
@@ -69,8 +68,6 @@ public class CoursesController {
             model.addAttribute("authors", authors);
             model.addAttribute("courseId", courseId);
 
-            LOGGER.info(userServices.getAuthors());
-
             mav = new ModelAndView("pages/courses/add-edit", "command", course);
 
         } else if ("delete".equals(action)) {
@@ -97,8 +94,6 @@ public class CoursesController {
 
     @RequestMapping(value="/courses/edit/", method = RequestMethod.POST)
     public ModelAndView edit(@ModelAttribute("course") Course course){
-        LOGGER.info("Отредактировали");
-        LOGGER.info(course);
         courseService.update(course);
         return new ModelAndView("redirect:/courses/");
     }

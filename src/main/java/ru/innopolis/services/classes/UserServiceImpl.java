@@ -53,4 +53,8 @@ public class UserServiceImpl implements UserService {
     public Map<Integer, String> getAuthors() {
         return userDao.getAuthors();
     }
+
+    public int getCount() {
+        return userDao.getCount();
+    }
 }

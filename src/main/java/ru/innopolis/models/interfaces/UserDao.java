@@ -21,4 +21,6 @@ public interface UserDao {
     int delete(int id);
 
     Map<Integer, String> getAuthors();
+
+    int getCount();
 }

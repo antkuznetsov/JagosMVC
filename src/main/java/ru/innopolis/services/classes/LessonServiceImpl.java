@@ -44,4 +44,8 @@ public class LessonServiceImpl implements LessonService {
     public void delete(int id) {
         lessonDao.delete(id);
     }
+
+    public int getCount() {
+        return lessonDao.getCount();
+    }
 }

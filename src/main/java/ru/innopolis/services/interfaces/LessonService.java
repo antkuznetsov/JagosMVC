@@ -21,4 +21,6 @@ public interface LessonService {
     void update(Lesson lesson);
 
     void delete(int id);
+
+    int getCount();
 }

@@ -22,4 +22,6 @@ public interface UserService {
     void delete(int id);
 
     Map<Integer, String> getAuthors();
+
+    int getCount();
 }

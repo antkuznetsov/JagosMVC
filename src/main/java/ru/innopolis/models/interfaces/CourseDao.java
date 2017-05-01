@@ -18,4 +18,6 @@ public interface CourseDao {
     int update(Course course);
 
     int delete(int id);
+
+    int getCount();
 }

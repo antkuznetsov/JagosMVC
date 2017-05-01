@@ -18,4 +18,6 @@ public interface CourseService {
     void update(Course course);
 
     void delete(int id);
+
+    int getCount();
 }

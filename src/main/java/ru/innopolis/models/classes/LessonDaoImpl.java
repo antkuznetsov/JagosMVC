@@ -88,4 +88,11 @@ public class LessonDaoImpl implements LessonDao {
 
         return template.update(sql, id);
     }
+
+    public int getCount() {
+
+        String sql = "SELECT COUNT(*) FROM lessons";
+
+        return template.queryForObject(sql, Integer.class);
+    }
 }

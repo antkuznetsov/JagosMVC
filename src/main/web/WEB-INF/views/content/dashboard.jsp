@@ -2,17 +2,17 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <section class="row text-center placeholders">
     <div class="col-6 col-sm-3 placeholder">
-        <div class="cicle-slide cicle-green">5</div>
+        <div class="cicle-slide cicle-green">${coursesCount}</div>
         <h4>Курсов</h4>
         <span class="text-muted">добавлено на сайт</span>
     </div>
     <div class="col-6 col-sm-3 placeholder">
-        <div class="cicle-slide cicle-blue">37</div>
+        <div class="cicle-slide cicle-blue">${lessonsCount}</div>
         <h4>Уроков</h4>
         <span class="text-muted">во всех курсах</span>
     </div>
     <div class="col-6 col-sm-3 placeholder">
-        <div class="cicle-slide cicle-red">17</div>
+        <div class="cicle-slide cicle-red">${usersCount}</div>
         <h4>Пользователей</h4>
         <span class="text-muted">зарегистрировано на сайте</span>
     </div>

@@ -20,4 +20,6 @@ public interface LessonDao {
     int update(Lesson lesson);
 
     int delete(int id);
+
+    int getCount();
 }

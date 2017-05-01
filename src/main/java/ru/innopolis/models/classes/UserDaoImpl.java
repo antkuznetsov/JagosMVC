@@ -77,7 +77,7 @@ public class UserDaoImpl implements UserDao {
         return template.update(sql, id);
     }
 
-    public Map<Integer, String> getAuthors () {
+    public Map<Integer, String> getAuthors() {
 
         String sql = "SELECT * FROM users WHERE group_id = 1 ORDER BY id";
 
@@ -90,5 +90,12 @@ public class UserDaoImpl implements UserDao {
         }
 
         return authors;
+    }
+
+    public int getCount() {
+
+        String sql = "SELECT COUNT(*) FROM users";
+
+        return template.queryForObject(sql, Integer.class);
     }
 }
