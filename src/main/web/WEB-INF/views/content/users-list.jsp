@@ -14,7 +14,7 @@
         </thead>
         <tbody>
         <c:forEach items="${requestScope.users}" var="user">
-            <tr<c:if test="${user.groupId == 1}"> class="admin"</c:if>>
+            <tr class="<c:if test="${user.groupId == 1}">admin</c:if><c:if test="${!user.blocked}"> disabled</c:if>">
                 <td><c:out value="${user.id}"/></td>
                 <td><c:out value="${user.name}"/></td>
                 <td><c:out value="${user.lastName}"/></td>
