@@ -11,6 +11,15 @@
 
         <link href="/resources/css/bootstrap.min.css" rel="stylesheet">
         <link href="/resources/css/dashboard.css" rel="stylesheet">
+
+        <script
+                src="https://code.jquery.com/jquery-3.2.1.min.js"
+                integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+                crossorigin="anonymous"></script>
+
+        <script
+                src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.16.0/jquery.validate.min.js"
+                crossorigin="anonymous"></script>
     </head>
 
     <body>

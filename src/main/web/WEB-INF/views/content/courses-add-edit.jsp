@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<form:form method="post" action="${action}">
+<form:form method="post" action="${action}" id="course-form">
     <div class="form-group">
         <label for="title">Название</label>
         <form:input path="title" cssClass="form-control" id="title"/>
@@ -49,3 +49,22 @@
     </table>
     <a href="/lessons/?action=add&course=<c:out value="${courseId}" />" class="add btn btn-primary">Добавить</a><br>
 </div>
+<script>
+    $("#course-form").validate({
+        rules: {
+            title: {
+                required: true,
+                minlength: 3,
+                maxlength: 30
+            },
+            description: {
+                required: true,
+                minlength: 3,
+                maxlength: 30
+            },
+            authorId: {
+                required: true
+            }
+        }
+    });
+</script>

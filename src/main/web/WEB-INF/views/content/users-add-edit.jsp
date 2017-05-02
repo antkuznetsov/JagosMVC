@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<form:form method="post" action="${action}">
+<form:form method="post" action="${action}" id="user-form">
     <div class="form-group">
         <label for="name">Ваше имя</label>
         <form:input path="name" cssClass="form-control" id="name"/>
@@ -36,3 +36,33 @@
     <form:hidden path="id"/>
     <button type="submit" class="btn btn-primary">Сохранить</button>
 </form:form>
+
+<script>
+    $("#user-form").validate({
+        rules: {
+            name: {
+                required: true,
+                minlength: 3,
+                maxlength: 20
+            },
+            lastName: {
+                required: true,
+                minlength: 3,
+                maxlength: 20
+            },
+            email: {
+                required: true,
+                email: true,
+                minlength: 6,
+                maxlength: 20
+            },
+            password: {
+                required: true,
+                minlength: 8,
+            },
+            groupId: {
+                required: true,
+            }
+        }
+    });
+</script>
