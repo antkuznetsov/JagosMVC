@@ -28,8 +28,9 @@
     </div>
     <div class="form-check">
         <label class="form-check-label">
+            <!--todo: исправить название флага на осмысленный-->
             <form:checkbox path="blocked" cssClass="form-check-input"/>
-            Заблокировать
+            Активен
         </label>
     </div>
     <form:hidden path="id"/>

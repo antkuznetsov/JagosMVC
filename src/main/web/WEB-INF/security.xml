@@ -6,10 +6,15 @@
 	http://www.springframework.org/schema/security
 	http://www.springframework.org/schema/security/spring-security-3.2.xsd">
 
+    <beans:import resource="db.xml"/>
+
+    <beans:bean class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
+
     <http pattern="/resources/**" security="none"/>
     <http auto-config="true">
-        <intercept-url pattern="/auth/**" access="ROLE_ANONYMOUS, ROLE_USER"/>
-        <intercept-url pattern="/**" access="ROLE_USER"/>
+        <intercept-url pattern="/auth/**" access="ROLE_ANONYMOUS, ROLE_USER, ROLE_ADMIN"/>
+        <intercept-url pattern="/**" access="ROLE_ADMIN"/>
+        <access-denied-handler error-page="/403/" />
         <form-login
                 login-page="/auth/"
                 default-target-url="/dashboard/"
@@ -22,9 +27,10 @@
 
     <authentication-manager>
         <authentication-provider>
-            <user-service>
-                <user name="ak" password="123456" authorities="ROLE_USER"/>
-            </user-service>
+            <password-encoder hash="bcrypt" />
+            <jdbc-user-service data-source-ref="dataSource"
+                               users-by-username-query="SELECT email, password, blocked FROM users where email = ?"
+                               authorities-by-username-query="SELECT email, code FROM groups LEFT JOIN users ON groups.id = users.group_id WHERE users.email = ?" />
         </authentication-provider>
     </authentication-manager>
 

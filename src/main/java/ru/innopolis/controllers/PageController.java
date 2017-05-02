@@ -43,4 +43,15 @@ public class PageController {
 
         return "pages/static-page";
     }
+
+    @RequestMapping("/403/")
+    public String error403(Model model) {
+
+        String content = "Ошибка 403 — доступ запрещен.";
+
+        model.addAttribute("title", "Доступ запрещен");
+        model.addAttribute("content", content);
+
+        return "pages/static-page";
+    }
 }

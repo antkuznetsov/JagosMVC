@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
 import ru.innopolis.models.entities.User;
 import ru.innopolis.models.interfaces.UserDao;
@@ -27,6 +28,8 @@ public class UserDaoImpl implements UserDao {
 
     @Autowired
     private JdbcTemplate template;
+    @Autowired
+    private BCryptPasswordEncoder encoder;
 
     public List<User> getList() {
 
@@ -58,7 +61,7 @@ public class UserDaoImpl implements UserDao {
 
         String sql = "INSERT INTO users (name, last_name, email, password, group_id, blocked) values (?, ?, ?, ?, ?, ?)";
 
-        return template.update(sql, user.getName(), user.getLastName(), user.getEmail(), DigestUtils.md5Hex(user.getPassword()),
+        return template.update(sql, user.getName(), user.getLastName(), user.getEmail(), encoder.encode(user.getPassword()),
                 user.getGroupId(), user.isBlocked());
     }
 
@@ -66,7 +69,7 @@ public class UserDaoImpl implements UserDao {
 
         String sql = "UPDATE users set name = ?, last_name = ?, email = ?, password = ?, group_id = ?, blocked = ? WHERE id = ?";
 
-        return template.update(sql, user.getName(), user.getLastName(), user.getEmail(), DigestUtils.md5Hex(user.getPassword()),
+        return template.update(sql, user.getName(), user.getLastName(), user.getEmail(), encoder.encode(user.getPassword()),
                 user.getGroupId(), user.isBlocked(), user.getId());
     }
 
