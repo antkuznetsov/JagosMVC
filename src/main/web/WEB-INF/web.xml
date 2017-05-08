@@ -63,4 +63,9 @@
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
+    <!-- Errors 400–500 -->
+    <error-page>
+        <location>/errors/</location>
+    </error-page>
+
 </web-app>
