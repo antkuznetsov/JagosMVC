@@ -1,12 +1,15 @@
 package ru.innopolis.models.entities;
 
 import org.apache.log4j.Logger;
-import org.apache.log4j.xml.DOMConfigurator;
+
+import javax.persistence.*;
 
 /**
  * Created by Kuznetsov on 13/04/2017.
  */
 
+@Entity
+@Table(name="lessons")
 public class Lesson {
 
     private static final Logger LOGGER = Logger.getLogger(Lesson.class);
@@ -27,6 +30,9 @@ public class Lesson {
         this.courseId = courseId;
     }
 
+    @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public int getId() {
         return id;
     }
@@ -35,6 +41,7 @@ public class Lesson {
         this.id = id;
     }
 
+    @Column(name = "title")
     public String getTitle() {
         return title;
     }
@@ -43,6 +50,7 @@ public class Lesson {
         this.title = title;
     }
 
+    @Column(name = "content")
     public String getContent() {
         return content;
     }
@@ -51,6 +59,7 @@ public class Lesson {
         this.content = content;
     }
 
+    @Column(name = "course_id")
     public int getCourseId() {
         return courseId;
     }
