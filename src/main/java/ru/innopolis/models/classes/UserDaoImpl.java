@@ -6,7 +6,6 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Projections;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,7 +27,6 @@ public class UserDaoImpl implements UserDao {
 
     private static final Logger LOGGER = Logger.getLogger(UserDaoImpl.class);
 
-    private JdbcTemplate template;
     private BCryptPasswordEncoder encoder;
     private SessionFactory sessionFactory;
 
@@ -105,15 +103,6 @@ public class UserDaoImpl implements UserDao {
         session.close();
 
         return count.intValue();
-    }
-
-    public JdbcTemplate getTemplate() {
-        return template;
-    }
-
-    @Autowired
-    public void setTemplate(JdbcTemplate template) {
-        this.template = template;
     }
 
     public BCryptPasswordEncoder getEncoder() {
