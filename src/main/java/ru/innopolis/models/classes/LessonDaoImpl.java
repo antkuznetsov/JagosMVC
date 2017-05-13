@@ -1,17 +1,15 @@
 package ru.innopolis.models.classes;
 
 import org.apache.log4j.Logger;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.criterion.Projections;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
-import ru.innopolis.models.entities.Course;
 import ru.innopolis.models.entities.Lesson;
 import ru.innopolis.models.interfaces.LessonDao;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -23,76 +21,80 @@ public class LessonDaoImpl implements LessonDao {
 
     private static final Logger LOGGER = Logger.getLogger(LessonDaoImpl.class);
 
-    @Autowired
-    private JdbcTemplate template;
+    private SessionFactory sessionFactory;
 
     public List<Lesson> getListByCourseId(int courseId) {
 
-        String sql = "SELECT * FROM lessons WHERE course_id = " + courseId + " ORDER BY id";
+        Session session = this.sessionFactory.openSession();
+        List<Lesson> lessons = session.createQuery("FROM Lesson l WHERE l.courseId = " + courseId + "ORDER BY l.id").list();
+        session.close();
 
-        return template.query(sql, new RowMapper<Lesson>() {
-
-            public Lesson mapRow(ResultSet rs, int row) throws SQLException {
-                Lesson lesson = new Lesson(
-                        rs.getInt(1),
-                        rs.getString(2),
-                        rs.getString(3),
-                        rs.getInt(4)
-                );
-                return lesson;
-            }
-        });
+        return lessons;
     }
 
     public List<Lesson> getList() {
 
-        return template.query("SELECT * FROM lessons ORDER BY id", new RowMapper<Lesson>() {
+        Session session = this.sessionFactory.openSession();
+        List<Lesson> lessons = session.createQuery("FROM Lesson l ORDER BY l.id").list();
+        session.close();
 
-            public Lesson mapRow(ResultSet rs, int row) throws SQLException {
-                Lesson lesson = new Lesson(
-                        rs.getInt(1),
-                        rs.getString(2),
-                        rs.getString(3),
-                        rs.getInt(4)
-                );
-                return lesson;
-            }
-        });
+        return lessons;
     }
 
     public Lesson getById(int id) {
 
-        String sql = "SELECT * FROM lessons WHERE id = ?";
+        Session session = this.sessionFactory.openSession();
 
-        return template.queryForObject(sql, BeanPropertyRowMapper.newInstance(Lesson.class), id);
+        Lesson lesson = session.get(Lesson.class, id);
+        session.close();
 
+        return lesson;
     }
 
-    public int add(Lesson lesson) {
+    public void add(Lesson lesson) {
 
-        String sql = "INSERT INTO lessons (title, content, course_id) values (?, ?, ?)";
-
-        return template.update(sql, lesson.getTitle(), lesson.getContent(), lesson.getCourseId());
+        Session session = this.sessionFactory.openSession();
+        Transaction tx = session.beginTransaction();
+        session.persist(lesson);
+        tx.commit();
+        session.close();
     }
 
-    public int update(Lesson lesson) {
+    public void update(Lesson lesson) {
 
-        String sql = "UPDATE lessons set title = ?, content = ?, course_id = ? WHERE id = ?";
-
-        return template.update(sql, lesson.getTitle(), lesson.getContent(), lesson.getCourseId(), lesson.getId());
+        Session session = this.sessionFactory.openSession();
+        Transaction tx = session.beginTransaction();
+        session.update(lesson);
+        tx.commit();
+        session.close();
     }
 
-    public int delete(int id) {
+    public void delete(int id) {
 
-        String sql = "DELETE from lessons WHERE id = ?";
-
-        return template.update(sql, id);
+        Session session = this.sessionFactory.openSession();
+        Transaction tx = session.beginTransaction();
+        Lesson lesson = session.load(Lesson.class, id);
+        session.delete(lesson);
+        tx.commit();
+        session.close();
     }
 
     public int getCount() {
 
-        String sql = "SELECT COUNT(*) FROM lessons";
+        Session session = this.sessionFactory.openSession();
 
-        return template.queryForObject(sql, Integer.class);
+        Number count = (Number) session.createCriteria(Lesson.class).setProjection(Projections.rowCount()).uniqueResult();
+        session.close();
+
+        return count.intValue();
+    }
+
+    public SessionFactory getSessionFactory() {
+        return sessionFactory;
+    }
+
+    @Autowired
+    public void setSessionFactory(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
     }
 }

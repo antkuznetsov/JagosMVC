@@ -15,11 +15,11 @@ public interface LessonDao {
 
     Lesson getById(int id);
 
-    int add(Lesson lesson);
+    void add(Lesson lesson);
 
-    int update(Lesson lesson);
+    void update(Lesson lesson);
 
-    int delete(int id);
+    void delete(int id);
 
     int getCount();
 }
