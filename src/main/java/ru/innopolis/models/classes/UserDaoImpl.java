@@ -1,18 +1,19 @@
 package ru.innopolis.models.classes;
 
-import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.log4j.Logger;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.criterion.Projections;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import ru.innopolis.models.entities.User;
 import ru.innopolis.models.interfaces.UserDao;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,84 +22,115 @@ import java.util.Map;
  * Created by Kuznetsov on 22/04/2017.
  */
 
+
 @Repository
 public class UserDaoImpl implements UserDao {
 
     private static final Logger LOGGER = Logger.getLogger(UserDaoImpl.class);
 
-    @Autowired
     private JdbcTemplate template;
-    @Autowired
     private BCryptPasswordEncoder encoder;
+    private SessionFactory sessionFactory;
 
+    @Transactional(readOnly = true)
     public List<User> getList() {
 
-        return template.query("SELECT * FROM users ORDER BY id", new RowMapper<User>() {
+        Session session = this.sessionFactory.openSession();
+        List<User> users = session.createQuery("FROM User u ORDER BY u.id").list();
+        session.close();
 
-            public User mapRow(ResultSet rs, int row) throws SQLException {
-                User user = new User(
-                        rs.getInt(1),
-                        rs.getString(2),
-                        rs.getString(3),
-                        rs.getString(4),
-                        rs.getString(5),
-                        rs.getInt(6),
-                        rs.getBoolean(7)
-                );
-                return user;
-            }
-        });
+        return users;
     }
 
+    @Transactional(readOnly = true)
     public User getById(int id) {
 
-        String sql = "SELECT * FROM users WHERE id = ?";
+        Session session = this.sessionFactory.openSession();
 
-        return template.queryForObject(sql, BeanPropertyRowMapper.newInstance(User.class), id);
+        User user = session.get(User.class, id);
+        session.close();
+
+        return user;
     }
 
-    public int add(User user) {
+    public void add(User user) {
 
-        String sql = "INSERT INTO users (name, last_name, email, password, group_id, blocked) values (?, ?, ?, ?, ?, ?)";
-
-        return template.update(sql, user.getName(), user.getLastName(), user.getEmail(), encoder.encode(user.getPassword()),
-                user.getGroupId(), user.isBlocked());
+        Session session = this.sessionFactory.openSession();
+        Transaction tx = session.beginTransaction();
+        session.persist(user);
+        tx.commit();
+        session.close();
     }
 
-    public int update(User user) {
+    public void update(User user) {
 
-        String sql = "UPDATE users set name = ?, last_name = ?, email = ?, password = ?, group_id = ?, blocked = ? WHERE id = ?";
-
-        return template.update(sql, user.getName(), user.getLastName(), user.getEmail(), encoder.encode(user.getPassword()),
-                user.getGroupId(), user.isBlocked(), user.getId());
+        Session session = this.sessionFactory.openSession();
+        Transaction tx = session.beginTransaction();
+        session.update(user);
+        tx.commit();
+        session.close();
     }
 
-    public int delete(int id) {
+    public void delete(int id) {
 
-        String sql = "DELETE from users WHERE id = ?";
-
-        return template.update(sql, id);
+        Session session = this.sessionFactory.openSession();
+        Transaction tx = session.beginTransaction();
+        User user = session.load(User.class, id);
+        session.delete(user);
+        tx.commit();
+        session.close();
     }
 
     public Map<Integer, String> getAuthors() {
 
-        String sql = "SELECT * FROM users WHERE group_id = 1 ORDER BY id";
+        Session session = this.sessionFactory.openSession();
+        List<User> users = session.createQuery("FROM User u WHERE u.groupId = 1 ORDER BY u.id").list();
+        session.close();
 
         Map<Integer, String> authors = new HashMap<Integer, String>();
 
-        List<Map<String, Object>> rows = template.queryForList(sql);
-
-        for (Map row : rows) {
-            authors.put((Integer) row.get("id"), row.get("name") + " " + row.get("last_name"));
+        for (User user : users) {
+            authors.put(user.getId(), user.getName() + " " + user.getLastName());
         }
 
         return authors;
     }
 
+    @Transactional(readOnly = true)
     public int getCount() {
 
-        String sql = "SELECT COUNT(*) FROM users";
+        Session session = this.sessionFactory.openSession();
 
-        return template.queryForObject(sql, Integer.class);
+        Number count = (Number) session.createCriteria(User.class).setProjection(Projections.rowCount()).uniqueResult();
+        session.close();
+
+        return count.intValue();
+    }
+
+    public JdbcTemplate getTemplate() {
+        return template;
+    }
+
+    @Autowired
+    public void setTemplate(JdbcTemplate template) {
+        this.template = template;
+    }
+
+    public BCryptPasswordEncoder getEncoder() {
+        return encoder;
+    }
+
+    @Autowired
+    public void setEncoder(BCryptPasswordEncoder encoder) {
+        this.encoder = encoder;
+    }
+
+    public SessionFactory getSessionFactory() {
+        return sessionFactory;
+    }
+
+    @Resource
+    public void setSessionFactory(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
     }
 }

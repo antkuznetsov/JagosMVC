@@ -3,11 +3,16 @@ package ru.innopolis.models.entities;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
+import javax.persistence.*;
+import java.io.Serializable;
+
 /**
  * Created by Kuznetsov on 13/04/2017.
  */
 
-public class User {
+@Entity
+@Table(name="users")
+public class User implements Serializable {
 
     private static final Logger LOGGER = Logger.getLogger(User.class);
 
@@ -33,6 +38,9 @@ public class User {
         this.blocked = blocked;
     }
 
+    @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public int getId() {
         return id;
     }
@@ -41,6 +49,7 @@ public class User {
         this.id = id;
     }
 
+    @Column(name = "name")
     public String getName() {
         return name;
     }
@@ -49,6 +58,7 @@ public class User {
         this.name = name;
     }
 
+    @Column(name = "last_name")
     public String getLastName() {
         return lastName;
     }
@@ -57,6 +67,7 @@ public class User {
         this.lastName = lastName;
     }
 
+    @Column(name = "email")
     public String getEmail() {
         return email;
     }
@@ -65,6 +76,7 @@ public class User {
         this.email = email;
     }
 
+    @Column(name = "password")
     public String getPassword() {
         return password;
     }
@@ -73,6 +85,7 @@ public class User {
         this.password = password;
     }
 
+    @Column(name = "group_id")
     public int getGroupId() {
         return groupId;
     }
@@ -81,6 +94,7 @@ public class User {
         this.groupId = groupId;
     }
 
+    @Column(name = "blocked")
     public boolean isBlocked() {
         return blocked;
     }

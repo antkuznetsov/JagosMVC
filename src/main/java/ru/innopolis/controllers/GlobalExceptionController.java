@@ -8,7 +8,7 @@ import ru.innopolis.exceptions.CustomGenericException;
 /**
  * Created by Kuznetsov on 08/05/2017.
  */
-
+/*
 @ControllerAdvice
 public class GlobalExceptionController {
 
@@ -33,3 +33,4 @@ public class GlobalExceptionController {
         return mav;
     }
 }
+*/

@@ -14,11 +14,11 @@ public interface UserDao {
 
     User getById(int id);
 
-    int add(User student);
+    void add(User student);
 
-    int update(User student);
+    void update(User student);
 
-    int delete(int id);
+    void delete(int id);
 
     Map<Integer, String> getAuthors();
 
