@@ -13,11 +13,11 @@ public interface CourseDao {
 
     Course getById(int id);
 
-    int add(Course course);
+    void add(Course course);
 
-    int update(Course course);
+    void update(Course course);
 
-    int delete(int id);
+    void delete(int id);
 
     int getCount();
 }

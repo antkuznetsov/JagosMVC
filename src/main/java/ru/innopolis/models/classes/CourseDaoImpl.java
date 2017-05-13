@@ -1,18 +1,16 @@
 package ru.innopolis.models.classes;
 
-import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.log4j.Logger;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.criterion.Projections;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import ru.innopolis.models.entities.Course;
-import ru.innopolis.models.entities.User;
 import ru.innopolis.models.interfaces.CourseDao;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -24,56 +22,72 @@ public class CourseDaoImpl implements CourseDao {
 
     private static final Logger LOGGER = Logger.getLogger(CourseDaoImpl.class);
 
-    @Autowired
-    private JdbcTemplate template;
+    private SessionFactory sessionFactory;
 
+    @Transactional(readOnly = true)
     public List<Course> getList() {
-        return template.query("SELECT * FROM courses ORDER BY id", new RowMapper<Course>() {
 
-            public Course mapRow(ResultSet rs, int row) throws SQLException {
-                Course course = new Course(
-                        rs.getInt(1),
-                        rs.getString(2),
-                        rs.getString(3),
-                        rs.getInt(4)
-                );
-                return course;
-            }
-        });
+        Session session = this.sessionFactory.openSession();
+        List<Course> courses = session.createQuery("FROM Course c ORDER BY c.id").list();
+        session.close();
+
+        return courses;
     }
 
+    @Transactional(readOnly = true)
     public Course getById(int id) {
 
-        String sql = "SELECT * FROM courses WHERE id = ?";
+        Session session = this.sessionFactory.openSession();
+        Course course = session.get(Course.class, id);
+        session.close();
 
-        return template.queryForObject(sql, BeanPropertyRowMapper.newInstance(Course.class), id);
+        return course;
     }
 
-    public int add(Course course) {
+    public void add(Course course) {
 
-        String sql = "INSERT INTO courses (title, description, author_id) values (?, ?, ?)";
-
-        return template.update(sql, course.getTitle(), course.getDescription(), course.getAuthorId());
+        Session session = this.sessionFactory.openSession();
+        Transaction tx = session.beginTransaction();
+        session.persist(course);
+        tx.commit();
+        session.close();
     }
 
-    public int update(Course course) {
+    public void update(Course course) {
 
-        String sql = "UPDATE courses set title = ?, description = ?, author_id = ? WHERE id = ?";
-
-        return template.update(sql, course.getTitle(), course.getDescription(), course.getAuthorId(), course.getId());
+        Session session = this.sessionFactory.openSession();
+        Transaction tx = session.beginTransaction();
+        session.update(course);
+        tx.commit();
+        session.close();
     }
 
-    public int delete(int id) {
+    public void delete(int id) {
 
-        String sql = "DELETE from courses WHERE id = ?";
-
-        return template.update(sql, id);
+        Session session = this.sessionFactory.openSession();
+        Transaction tx = session.beginTransaction();
+        Course course = session.load(Course.class, id);
+        session.delete(course);
+        tx.commit();
+        session.close();
     }
 
     public int getCount() {
 
-        String sql = "SELECT COUNT(*) FROM courses";
+        Session session = this.sessionFactory.openSession();
 
-        return template.queryForObject(sql, Integer.class);
+        Number count = (Number) session.createCriteria(Course.class).setProjection(Projections.rowCount()).uniqueResult();
+        session.close();
+
+        return count.intValue();
+    }
+
+    public SessionFactory getSessionFactory() {
+        return sessionFactory;
+    }
+
+    @Autowired
+    public void setSessionFactory(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
     }
 }
